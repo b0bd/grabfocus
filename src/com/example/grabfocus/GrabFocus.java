@@ -7,10 +7,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.widget.TextView;
 import android.os.Process;
-
+import android.util.Log;
 
 public class GrabFocus extends Activity
 {
+    private static final String TAG = "GrabFocus";
+
     /**
      * Called when the activity is first created.
      */
@@ -18,22 +20,29 @@ public class GrabFocus extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        Log.i(TAG,"onCreate");
+
         setContentView(R.layout.main);
 
         final TextView focusInfoTV = (TextView) findViewById(R.id.focusInfo);
         focusInfoTV.setText("Trying to gain audio focus");
 
-        new AudioFocus(this).grabFocus();
+        final AudioFocus af = new AudioFocus(this);
+        af.grabFocus();
 
         final Handler h = new Handler();
         h.postDelayed(new Runnable()
             {
                 public void run()
                 {
-                   finish();
+			        Log.i(TAG,"onCreate postDelayed finish()");
+			        af.releaseFocus();
+                    finish();
                 }
             },
             3000);
+
+        Log.i(TAG,"onCreate done");
     }
 
 
@@ -41,17 +50,21 @@ public class GrabFocus extends Activity
     @Override
     protected void onDestroy()
     {
-        Process.killProcess(Process.myPid());
+        Log.i(TAG,"onDestroy");
+        //Process.killProcess(Process.myPid());
         super.onDestroy();
+        Log.i(TAG,"onDestroy done");
     }
 
 
     private final AudioManager.OnAudioFocusChangeListener _changeListener =
-            new AudioManager.OnAudioFocusChangeListener()
+        new AudioManager.OnAudioFocusChangeListener()
+        {
+            public void onAudioFocusChange(int focusChange)
             {
-                public void onAudioFocusChange(int focusChange)
-                {
-                    // do nothing;
-                }
-            };
+                // do nothing;
+		        Log.i(TAG,"onAudioFocusChange focusChange="+focusChange+" do nothing");
+            }
+        };
 }
+
