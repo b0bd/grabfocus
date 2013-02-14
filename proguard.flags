@@ -1,0 +1,8 @@
+-keepclassmembers class com.example.grabfocus.GrabFocus {
+}
+-keep class com.example.grabfocus.GrabFocus {
+}
+-keep class com.example.grabfocus.AudioFocus {
+}
+
+
