@@ -18,11 +18,14 @@ public final class PowerMonitorReceiver extends BroadcastReceiver {
         final String USE_FI_MODE_PROP = "persist.sys.use_fi_mode";
         final String USE_FI_MODE_DEFAULT = "1";
         final String FI_MODE_FILE = "/sys/kernel/usbhost/usbhost_fixed_install_mode";
+
         String useFiMode = SystemProperties.get(USE_FI_MODE_PROP, USE_FI_MODE_DEFAULT);
         if("0".equals(useFiMode)) {
             Log.i(TAG, "PowerMonitorReceiver intent="+intent.getAction()+" ignored outside FI mode");
+
         } else {
             Log.i(TAG, "PowerMonitorReceiver intent="+intent.getAction()+" being processed in FI mode...");
+
             if (Intent.ACTION_POWER_DISCONNECTED.equals(intent.getAction())) {
                 af = new AudioFocus(context);
                 if(af!=null) {
@@ -33,6 +36,8 @@ public final class PowerMonitorReceiver extends BroadcastReceiver {
             } else
             if (Intent.ACTION_POWER_CONNECTED.equals(intent.getAction())) {
                 if(af!=null) {
+                    // let slave devices (DAC) start up
+                    try { Thread.sleep(750); } catch(Exception ex) { }
                     af.releaseFocus();
                     af = null;
                 } else {
