@@ -17,30 +17,29 @@ final class AudioFocus implements AudioManager.OnAudioFocusChangeListener
         //Log.i(TAG,"AudioFocus grabFocus");
         final int result = am.requestAudioFocus(this,
                                                 AudioManager.STREAM_MUSIC,
-                                                AudioManager.AUDIOFOCUS_GAIN);
-        Log.i(TAG,"AudioFocus grabFocus - tried to grab focus result="+ 
-        	((result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED)?"granted":"failed"));
+                                                AudioManager.AUDIOFOCUS_GAIN_TRANSIENT); //AudioManager.AUDIOFOCUS_GAIN);
+        Log.i(TAG,"AudioFocus grabFocus - tried to grab focus result="+
+            ((result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED)?"granted":"failed"));
     }
 
     public void releaseFocus() {
         //Log.i(TAG,"AudioFocus releaseFocus");
         final int result = am.abandonAudioFocus(this);
         Log.i(TAG,"AudioFocus releaseFocus - tried to abandon focus result="+
-        	((result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED)?"granted":"failed"));
+            ((result==AudioManager.AUDIOFOCUS_REQUEST_GRANTED)?"granted":"failed"));
     }
 
-	@Override
+    @Override
     public void onAudioFocusChange(int focusChange) {
-        switch(focusChange) { 
-        	case AudioManager.AUDIOFOCUS_GAIN:
-				Log.i(TAG,"AudioFocus onAudioFocusChange AUDIOFOCUS_GAIN");
-				break;
-        	case AudioManager.AUDIOFOCUS_LOSS:
-				Log.i(TAG,"AudioFocus onAudioFocusChange AUDIOFOCUS_LOSS");
-				break;
-			default:
-				Log.i(TAG,"AudioFocus onAudioFocusChange focusChange="+focusChange);
+        switch(focusChange) {
+            case AudioManager.AUDIOFOCUS_GAIN:
+                Log.i(TAG,"AudioFocus onAudioFocusChange AUDIOFOCUS_GAIN");
+                break;
+            case AudioManager.AUDIOFOCUS_LOSS:
+                Log.i(TAG,"AudioFocus onAudioFocusChange AUDIOFOCUS_LOSS");
+                break;
+            default:
+                Log.i(TAG,"AudioFocus onAudioFocusChange focusChange="+focusChange);
         }
     }
 }
-

@@ -35,8 +35,8 @@ public class GrabFocus extends Activity
             {
                 public void run()
                 {
-			        Log.i(TAG,"onCreate postDelayed finish()");
-			        af.releaseFocus();
+                    Log.i(TAG,"onCreate postDelayed finish()");
+                    af.releaseFocus();
                     finish();
                 }
             },
@@ -63,8 +63,7 @@ public class GrabFocus extends Activity
             public void onAudioFocusChange(int focusChange)
             {
                 // do nothing;
-		        Log.i(TAG,"onAudioFocusChange focusChange="+focusChange+" do nothing");
+                Log.i(TAG,"onAudioFocusChange focusChange="+focusChange+" do nothing");
             }
         };
 }
-
